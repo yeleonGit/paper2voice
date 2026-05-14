@@ -1,0 +1,25 @@
+[package]
+name = "paper2voice"
+version = "0.1.0"
+description = "Turn selectable-text PDFs into local audiobooks"
+authors = ["paper2voice"]
+edition = "2021"
+
+[lib]
+name = "paper2voice_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+anyhow = "1"
+thiserror = "1"
+regex = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+pdf-extract = "0.7"
+tauri = { version = "2", features = ["protocol-asset"] }
+rfd = "0.15"
+dirs = "6"
+hound = "3"

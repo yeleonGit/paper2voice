@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paper2Voice</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header" data-tauri-drag-region>
+        <div>
+          <h1>PAPER2VOICE</h1>
+          <p>Local PDF -> Audiobook</p>
+        </div>
+        <div id="dependency-status" class="dependency-status">Checking dependencies...</div>
+      </header>
+
+      <section class="workspace">
+        <section class="control-panel" aria-label="Conversion controls">
+          <div id="drop-zone" tabindex="0" role="button" aria-label="Choose PDF">
+            <div>
+              <p>DROP PDF HERE</p>
+              <span>or click to choose a file</span>
+            </div>
+          </div>
+
+          <input id="file-input" type="file" accept="application/pdf" hidden />
+
+          <div class="selected-row">
+            <span>Selected</span>
+            <strong id="selected-pdf">No PDF selected</strong>
+          </div>
+
+          <div class="settings-grid">
+            <label>Mode</label>
+            <div class="mode-control" role="radiogroup" aria-label="Conversion mode">
+              <label>
+                <input type="radio" name="conversion-mode" value="super_quick" checked />
+                <span>Super Fast</span>
+              </label>
+              <label>
+                <input type="radio" name="conversion-mode" value="fast_export" />
+                <span>Fast</span>
+              </label>
+              <label>
+                <input type="radio" name="conversion-mode" value="quality" />
+                <span>Quality</span>
+              </label>
+            </div>
+
+            <label for="voice-select">Voice</label>
+            <select id="voice-select">
+              <option value="af_heart">af_heart</option>
+            </select>
+
+            <label for="speed-input">Speed</label>
+            <div class="range-row">
+              <input
+                id="speed-input"
+                type="range"
+                min="0.75"
+                max="1.25"
+                step="0.05"
+                value="1.0"
+              />
+              <output id="speed-output">1.00x</output>
+            </div>
+
+            <label>Theme</label>
+            <div class="theme-control" role="radiogroup" aria-label="Theme">
+              <label>
+                <input type="radio" name="theme-mode" value="dark" checked />
+                <span>Dark</span>
+              </label>
+              <label>
+                <input type="radio" name="theme-mode" value="light" />
+                <span>Light</span>
+              </label>
+            </div>
+          </div>
+
+          <button id="convert-button" disabled>Convert to Audiobook</button>
+
+          <section class="progress-section" aria-label="Progress">
+            <div class="section-title">Progress</div>
+            <div id="progress-visual" class="progress-visual idle">
+              <div class="progress-mark" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div>
+                <strong id="progress-status">Idle</strong>
+                <p id="progress-detail">Ready for a PDF.</p>
+              </div>
+            </div>
+            <pre id="progress-log" aria-label="Progress history"></pre>
+          </section>
+
+          <section class="output-section" aria-label="Output">
+            <div class="section-title">Output</div>
+            <p id="output-path">Waiting for conversion.</p>
+            <button id="open-output-button" disabled>Open Output Folder</button>
+          </section>
+
+          <section class="library-section" aria-label="Audiobook library">
+            <div class="section-title">Library</div>
+            <div id="library-list"></div>
+            <p id="library-empty">No audiobooks yet.</p>
+          </section>
+        </section>
+
+        <section class="reader-panel" aria-label="Audiobook playback and PDF sync">
+          <div class="reader-header">
+            <div>
+              <div class="section-title">Reader</div>
+              <p id="reader-status">Convert a PDF to load playback and page sync.</p>
+            </div>
+            <div id="page-indicator">Page -</div>
+          </div>
+
+          <div class="player-strip">
+            <audio id="audio-player" controls></audio>
+            <div class="playback-control">
+              <label for="playback-speed-input">Playback</label>
+              <input
+                id="playback-speed-input"
+                type="range"
+                min="1"
+                max="4"
+                step="0.25"
+                value="1"
+                disabled
+              />
+              <output id="playback-speed-output">1.00x</output>
+            </div>
+          </div>
+
+          <div class="page-control">
+            <button id="prev-page-button" type="button" aria-label="Previous page">Prev</button>
+            <input id="page-slider" type="range" min="1" max="1" step="1" value="1" disabled />
+            <input id="page-input" type="number" min="1" max="1" value="1" disabled />
+            <button id="next-page-button" type="button" aria-label="Next page">Next</button>
+          </div>
+
+          <div class="reader-body">
+            <nav id="page-rail" aria-label="PDF pages"></nav>
+            <iframe id="pdf-viewer" title="Selected PDF preview"></iframe>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
